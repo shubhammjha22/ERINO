@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "./config";
 
 export function useFetchContacts() {
   const [data, setData] = useState();
@@ -11,7 +12,7 @@ export function useFetchContacts() {
     async function getContacts() {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8000/api/v1/contacts`);
+        const res = await axios.get(`${BACKEND_URL}/api/v1/contacts`);
         console.log(res.data.contacts);
         setData(res.data.contacts);
       } catch (err) {

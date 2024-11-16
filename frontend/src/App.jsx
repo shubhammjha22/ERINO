@@ -9,8 +9,8 @@ import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContactEditForm from "./components/ContactEditForm";
-import EnhancedTable from "./components/MaterialTable";
 import DeleteModal from "./components/DeleteModal";
+import { BACKEND_URL } from "./config";
 
 function App() {
   const [contacts, setContacts] = useState([]);
@@ -54,7 +54,7 @@ function App() {
   const handleSubmit = async (formData) => {
     console.log("inside handle submit -", formData);
     try {
-      const res = await axios.post(`http://localhost:8000/api/v1/contacts`, {
+      const res = await axios.post(`${BACKEND_URL}/api/v1/contacts`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -98,17 +98,14 @@ function App() {
     console.log("inside handle submit -", formData);
     const id = showEditForm.val;
     try {
-      const res = await axios.put(
-        `http://localhost:8000/api/v1/contacts/${id}`,
-        {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phoneNumber: formData.phoneNumber,
-          company: formData.company,
-          jobTitle: formData.jobTitle,
-        }
-      );
+      const res = await axios.put(`${BACKEND_URL}/api/v1/contacts/${id}`, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        company: formData.company,
+        jobTitle: formData.jobTitle,
+      });
       console.log(res.data.message);
       toast.success(res.data.message, {
         position: "bottom-right",
@@ -151,9 +148,7 @@ function App() {
     const id = deleteModal.val;
 
     try {
-      const res = await axios.delete(
-        `http://localhost:8000/api/v1/contacts/${id}`
-      );
+      const res = await axios.delete(`${BACKEND_URL}/api/v1/contacts/${id}`);
       console.log(res.data.message);
       toast.success(res.data.message, {
         position: "bottom-right",
